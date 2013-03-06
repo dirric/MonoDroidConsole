@@ -1,13 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    >
-<Button  
-    android:id="@+id/MyButton"
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="@string/Hello"
-    />
-</LinearLayout>
+    android:background="#000000"
+    android:minWidth="25px"
+    android:minHeight="25px">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/btnClear"
+        android:orientation="vertical">
+        <ListView
+            android:id="@+id/consoleListView"
+            android:layout_width="fill_parent"
+            android:layout_height="409.3dp"
+            android:background="#000000"
+            android:cacheColorHint="@android:color/background_dark"
+            android:minHeight="25px"
+            android:minWidth="25px" />
+    </LinearLayout>
+    <EditText
+        android:id="@+id/commandLineTextView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/btnSend"
+        android:layout_toLeftOf="@+id/btnSend"
+        android:background="#000000"
+        android:minHeight="25dp"
+        android:minWidth="75dp"
+        android:text="Text"
+        android:textColor="#00FF00" />
+    <Button
+        android:id="@+id/btnSend"
+        android:layout_width="75dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:text="Enter" />
+    <Button
+        android:id="@+id/btnClear"
+        android:layout_width="75dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_above="@+id/btnSend"
+        android:text="Clear" />
+</RelativeLayout>

@@ -6,33 +6,35 @@ using System.IO;
 
 namespace EmulatedSTDStreams
 {
-    class STDOut
+    public static class STDOut
     {
-        MemoryStream m_stdOut;
-        StreamReader m_lineReader;
+        static MemoryStream m_stdOutWrite;
+        static MemoryStream m_stdOutRead;
+        static StreamReader m_lineReader;
+        static StreamWriter m_lineWriter;
+        static byte[] m_buf;
 
-        public STDOut()
+        static STDOut()
         {
-            m_stdOut = new MemoryStream();
-            m_lineReader = new StreamReader(m_stdOut);
+            m_buf = new byte[512];
+            m_stdOutWrite = new MemoryStream(m_buf, true);
+            m_stdOutRead = new MemoryStream(m_buf, false);
+            m_lineReader = new StreamReader(m_stdOutRead, Encoding.ASCII);
+            m_lineWriter = new StreamWriter(m_stdOutWrite, Encoding.ASCII);
         }
 
-        public void WriteLine(string strOut)
+        public static void WriteLine(string strOut)
         {
-            byte[] bytes = Encoding.ASCII.GetBytes(strOut);
-            foreach (byte b in bytes)
-            {
-                m_stdOut.WriteByte(b);
-            }
-            m_stdOut.WriteByte((Encoding.ASCII.GetBytes("\n"))[0]);
+            m_lineWriter.WriteLine(strOut);
+            m_lineWriter.Flush();
         }
 
-        public bool isAvailabile()
+        public static bool isAvailabile()
         {
-            return m_stdOut.Length > 0;
+            return m_stdOutRead.Length > 0;
         }
 
-        internal string ReadLine()
+        internal static string ReadLine()
         {
             return m_lineReader.ReadLine();
         }

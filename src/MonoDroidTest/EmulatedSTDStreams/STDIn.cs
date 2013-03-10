@@ -6,14 +6,14 @@ using System.IO;
 
 namespace EmulatedSTDStreams
 {
-    public class STDIn
+    static public class STDIn
     {
-        MemoryStream m_inStream;
+        static MemoryStream m_inStream = new MemoryStream(512);
 
-        public void WriteLine(string strOut)
+        public static void WriteLine(string strOut)
         {
-            byte []bytes = Encoding.ASCII.GetBytes(strOut);
-            foreach(byte b in bytes)
+            byte[] bytes = Encoding.ASCII.GetBytes(strOut);
+            foreach (byte b in bytes)
             {
                 m_inStream.WriteByte(b);
             }

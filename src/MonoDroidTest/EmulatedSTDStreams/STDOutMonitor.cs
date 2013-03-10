@@ -5,44 +5,48 @@ using System.Threading;
 
 namespace EmulatedSTDStreams
 {
-    class STDStreamMonitor
+    public class STDStreamMonitor
     {
         Thread m_thread;
-        STDOut m_outStream;
         ConsoleLinesAdapter m_activityList;
         bool _shouldStop = false;
 
-        public STDStreamMonitor(STDOut outStream, ConsoleLinesAdapter activityList)
+        public STDStreamMonitor(ConsoleLinesAdapter activityList)
         {
-            m_thread = new Thread(WorkMethod);
-            m_outStream = outStream;
             m_activityList = activityList;
             m_activityList.SetNotifyOnChange(true);
+            m_thread = new Thread(WorkMethod);
         }
 
         public void WorkMethod()
         {
             while (!_shouldStop)
             {
-                if (m_outStream.isAvailabile())
+                if (STDOut.isAvailabile())
                 {
-                    m_activityList.Add(m_outStream.ReadLine());
+                    string readstring = STDOut.ReadLine();
+                    if (readstring != null)
+                    {
+                        m_activityList.AddString(readstring);
+                        m_activityList.NotifyDataSetChanged();
+                    }
                 }
                 Thread.Sleep(100);
+
             }
         }
-        
-        bool isRunning()
+
+        public bool isRunning()
         {
             return !_shouldStop && m_thread.IsAlive;
         }
 
-        void Stop()
+        public void Stop()
         {
             _shouldStop = true;
         }
 
-        void Start()
+        public void Start()
         {
             _shouldStop = false;
             m_thread.Start();

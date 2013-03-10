@@ -15,9 +15,14 @@ namespace MonoDroidTest
 {
 	
 	
-	[System.CodeDom.Compiler.GeneratedCodeAttribute("Novell.MonoDroid.Build.Tasks", "1.0.0.0")]
+	[System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Android.Build.Tasks", "1.0.0.0")]
 	public partial class Resource
 	{
+		
+		Resource()
+		{
+			global::Android.Runtime.ResourceIdManager.UpdateIdValues ();
+		}
 		
 		public static void UpdateIdValues()
 		{
@@ -58,7 +63,7 @@ namespace MonoDroidTest
 			public const int consoleListView = 2131034114;
 			
 			// aapt resource value: 0x7f050000
-			public const int editText1 = 2131034112;
+			public const int stdLine = 2131034112;
 			
 			private Id()
 			{

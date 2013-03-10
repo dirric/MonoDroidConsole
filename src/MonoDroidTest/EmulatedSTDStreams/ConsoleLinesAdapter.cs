@@ -15,14 +15,18 @@ namespace EmulatedSTDStreams
     public class ConsoleLinesAdapter : ArrayAdapter<String>
     {
         List<string> m_lstConsoleLines;
-        int m_intResourceID;
+        int m_intTextViewResourceID;
+        int m_intLayoutResourceID;
         STDStreamMonitor m_stdMonitor;
-        STDOut m_out = new STDOut();
-        public ConsoleLinesAdapter(Context context, int resourceID, List<string> adapter):base(context, resourceID, adapter)
+
+        public ConsoleLinesAdapter(Context context, int intLayoutID, int txtResourceID, List<string> adapter)
+            : base(context, intLayoutID, adapter)
         {
             m_lstConsoleLines = adapter;
-            m_intResourceID = resourceID;
-            m_stdMonitor = new STDStreamMonitor(m_out, this);
+            m_intTextViewResourceID = txtResourceID;
+            m_intLayoutResourceID = intLayoutID;
+            m_stdMonitor = new STDStreamMonitor(this);
+            m_stdMonitor.Start();
         }
 
         public override View GetView(int position, View convertView, ViewGroup parent)
@@ -31,14 +35,14 @@ namespace EmulatedSTDStreams
             if (v == null)
             {
                 LayoutInflater vi = (LayoutInflater)this.Context.GetSystemService(Context.LayoutInflaterService);
-                v = vi.Inflate(m_intResourceID, null);
+                v = vi.Inflate(m_intLayoutResourceID, null);
             }
 
             string o = m_lstConsoleLines[position];
 
             if (o != null)
             {
-                TextView consoleViewLine = (TextView)v.FindViewById(m_intResourceID);
+                TextView consoleViewLine = (TextView)v.FindViewById(m_intTextViewResourceID);
 
                 consoleViewLine.Text = o;
             }
@@ -47,6 +51,12 @@ namespace EmulatedSTDStreams
                 v.Visibility = ViewStates.Gone;
             }
             return v;
+        }
+
+        public void AddString(string str)
+        {
+            m_lstConsoleLines.Add(str);
+            //NotifyDataSetChanged();
         }
     }
 }
